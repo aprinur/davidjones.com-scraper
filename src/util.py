@@ -4,6 +4,7 @@ import pandas as pd
 import openpyxl
 import json
 import re
+import os
 
 
 def get_string_json(html_content: str):
@@ -41,14 +42,20 @@ def get_html_content(URL):
         return html_content
     except TimeoutError as e:
         print(f'get_html_content: error {e}')
+        return False
 
 
-def export_to_file(data):
+def export_to_file(data, filename: str):
     try:
         if data:
+            save_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
+            excel_path = os.path.join(save_dir, f'{filename}.xlsx')
+
             df = pd.DataFrame(data)
-            df.to_excel('Scraped data.xlsx', engine='openpyxl', index=False)
-            print('Data exported as : Scraped data.xlsx')
+            df['Product_URL'].apply(lambda x: f'=HYPERLINK("{x}", "{x}"')
+            df['Image_URL'].apply(lambda x: f'=HYPERLINK("{x}", "{x}"')
+            df.to_excel(excel_path, engine='openpyxl', index=False)
+            print(f'Data exported as {filename} in {save_dir}')
             return df
 
     except Exception as e:
