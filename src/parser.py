@@ -1,30 +1,28 @@
 from src.data_req import DataRequirements
 
 
-def json_parser(json_object: dict):
+def json_parser(json_object: dict) -> list[DataRequirements]:
+    """
+    Parse data based on DataRequirement
+
+    :param json_object: json data to parse
+    :return: list[DataRequirement]
+    """
     try:
         if json_object:
             all_data = []
             for json in json_object.get('products', {}).get('catalogue', []):
-                data = {
-                    "name": json.get('name', ''),
-                    "id_": json.get('id', ''),
-                    "price": json.get('price', 0.00),
-                    "brand": json.get('brand', ''),
-                    "product_url": json.get('productURL', ''),
-                    "image_url": json.get('productImageURL', ''),
-                }
-                all_data.append(data)
-
-            return [DataRequirements(
-                Name=item['name'],
-                ID=item['id_'],
-                Price=item['price'],
-                Brand=item['brand'],
-                Product_URL=item['product_url'],
-                Image_URL=item['image_url']
-            ) for item in all_data]
+                all_data.append(DataRequirements(
+                    Brand=json.get('brand', ''),
+                    ID=json.get('id', ''),
+                    Name=json.get('name', ''),
+                    Price=json.get('price', 0.00),
+                    PriceRrp=json.get('priceRrp', 0.00),
+                    Discount=json.get('discountValue', 0.00),
+                    Product_URL=json.get('productURL', ''),
+                    Image_URL=json.get('productImageURL', '')))
+            return all_data
         else:
-            return False
+            return []
     except Exception as e:
         print(f'Error parsing json: {e}')
