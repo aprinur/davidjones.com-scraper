@@ -83,31 +83,6 @@ def user_input_for_scraping():
         return base_url, url_cout, sheet_name
 
 
-def user_input_for_gsheet():
-    """
-    Function to get user input for Google Sheets credentials.
-
-    Returns:
-        tuple: A tuple containing the Google Sheets name and the API key filename.
-    """
-    while True:
-        g_sheetname = input("Enter your google spreadsheet name or type 'quit' and press enter to exit: ").strip()
-        if g_sheetname.lower() == 'quit':
-            print('Closing program')
-            sys.exit(0)
-        if g_sheetname:
-            break
-        logger.warning('Sheet name cannot be empty')
-    while True:
-        api_key = input("Enter json API key name or type 'quit' and press enter to exit: ").strip()
-        if api_key.lower() == 'quit':
-            print('Closing program')
-            sys.exit(0)
-        if os.path.exists(api_key):
-            return g_sheetname, api_key
-        logger.error(f'Error: "f{api_key}" not found in directory. Please move the file to the working directory and try again')
-
-
 def user_input_for_sheet_del():
     """
     Function to get user input for deleting a worksheet.

@@ -160,7 +160,6 @@ def sheet_removal_verif() -> bool:
         if verif == 'y':
             return True
         elif verif == 'n':
-            logger.info('Return to main menu')
             return False
         logger.info('Invalid input')
 
