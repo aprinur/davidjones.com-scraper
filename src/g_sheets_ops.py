@@ -95,7 +95,7 @@ def worksheet_values(workshet_name):
     """
     sh = spreadsheets.worksheet(workshet_name)
     df = pd.DataFrame(sh.get_all_values())
-    print(f"\n{tabulate(df, headers="firstrow", tablefmt="fancy_grid")}")
+    print(f"\n{tabulate(df, headers="firstrow", tablefmt="simple_grid")}")
 
 
 def del_sheet(worksheet_name):
