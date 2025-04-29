@@ -6,11 +6,13 @@ import pandas as pd
 from curl_cffi import requests
 from ratelimit import limits, sleep_and_retry
 
-from config.g_spreadsheet_config import spreadsheets
+from config.g_spreadsheet_config import connect_to_spreadsheet
 from config.scraping_config import MAX_CALLS, PERIOD, HEADERS
 from src.data_req import DataRequirements
 from src.logger import logger
 from src.parser import json_parser
+
+spreadsheets = connect_to_spreadsheet()
 
 
 # Page handling

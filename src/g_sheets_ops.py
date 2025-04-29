@@ -3,10 +3,11 @@ import pandas as pd
 from openpyxl.worksheet.worksheet import Worksheet
 from tabulate import tabulate
 
-from config.g_spreadsheet_config import spreadsheets
 from config.scraping_config import HEADERS
-from data_req import DataRequirements
+from src.data_req import DataRequirements
 from src.logger import logger
+from src.util import spreadsheets
+
 
 
 def worksheet_name_validator(worksheet_name: str) -> bool:
