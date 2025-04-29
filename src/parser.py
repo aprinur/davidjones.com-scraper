@@ -1,7 +1,9 @@
+from typing import Any
+
 from src.data_req import DataRequirements
 
 
-def json_parser(json_object: dict) -> list[DataRequirements]:
+def json_parser(json_object: dict) -> list[DataRequirements] | None:
     """
     Parse data based on DataRequirement
 

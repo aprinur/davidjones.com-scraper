@@ -1,12 +1,13 @@
 import os
 import shutil
-
+import sys
 from dotenv import load_dotenv
+from pathlib import Path
 
 from src.logger import logger
 
 project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-credentials_dir = os.path.join(project_dir, 'credentials')
+credentials_dir = Path(project_dir) / 'credentials'
 
 
 def check_cred_dir() -> None:
@@ -34,7 +35,7 @@ def check_dotenv() -> None:
 
     if not os.path.exists(env_path):
         g_sheetname, api_key_filename = user_input_for_gsheet()
-        api_dir = os.path.join(project_dir, api_key_filename)
+        api_dir = Path(project_dir) / api_key_filename
 
         shutil.move(api_dir, credentials_dir)
         logger.info(f'{api_key_filename} moved to {credentials_dir}')
@@ -75,12 +76,13 @@ def user_input_for_gsheet():
             sys.exit(0)
         if os.path.exists(file_path):
             return g_sheetname, api_key
-        logger.error(f'Error: "{api_key}" not found in working directory. Please move the file to the working directory and try again')
+        logger.error(
+            f'Error: "{api_key}" not found in working directory. Please move the file to the working directory and try again')
 
 
-def creds():
+def creds() -> None:
     """
-    Function to call functions above
+    Function to call check_cred_dir() and check_dotenv()
 
      Returns:
          None

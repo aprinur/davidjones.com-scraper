@@ -1,15 +1,15 @@
-from dataclasses import asdict
-
 import gspread.exceptions
 import pandas as pd
+from openpyxl.worksheet.worksheet import Worksheet
 from tabulate import tabulate
 
 from config.g_spreadsheet_config import spreadsheets
 from config.scraping_config import HEADERS
+from data_req import DataRequirements
 from src.logger import logger
 
 
-def worksheet_name_validator(worksheet_name):
+def worksheet_name_validator(worksheet_name: str) -> bool:
     """
     Validates if a worksheet with the given name exists.
 
@@ -26,14 +26,14 @@ def worksheet_name_validator(worksheet_name):
         return False
 
 
-def to_g_worksheet(sheetname, data):
+def to_g_worksheet(sheetname: str, data: list[DataRequirements]) -> None:
     """
     Saves data to a Google Sheets worksheet. If the worksheet exists, it appends new rows.
-    If the worksheet does not exist, it creates a new one and saves the data.
+    Otherwise, it creates a new one and saves the data.
 
     Args:
-        sheetname (str): The name of the worksheet.
-        data (list[DataRequirements]): The data to save.
+        sheetname (str): The name of the worksheet
+        data (list[DataRequirements]): The data to save
 
     Returns:
         None
@@ -57,7 +57,7 @@ def to_g_worksheet(sheetname, data):
         print(f'Error saving to worksheet {sheetname}: {e}')
 
 
-def create_new_sheet(sheet_name):
+def create_new_sheet(sheet_name: str) -> Worksheet:
     """
     Creates a new worksheet with the given name.
 
@@ -65,14 +65,14 @@ def create_new_sheet(sheet_name):
         sheet_name (str): The name of the new worksheet.
 
     Returns:
-        gspread.models.Worksheet: The created worksheet.
+        Worksheet: The created worksheet.
     """
     new_sheet = spreadsheets.add_worksheet(sheet_name, rows=100, cols=26)
     print(f'Worksheet {sheet_name} has created')
     return new_sheet
 
 
-def all_worksheets():
+def all_worksheets() -> None:
     """
     Prints the titles of all worksheets in the spreadsheet.
 
@@ -80,10 +80,10 @@ def all_worksheets():
         None
     """
     for key, value in enumerate([ws.title for ws in spreadsheets.worksheets()]):
-        print(f'{key+1}. {value}')
+        print(f'{key + 1}. {value}')
 
 
-def worksheet_values(workshet_name):
+def worksheet_values(workshet_name: str) -> None:
     """
     Prints the values of the specified worksheet in a tabulated format.
 
@@ -98,7 +98,7 @@ def worksheet_values(workshet_name):
     print(f"\n{tabulate(df, headers="firstrow", tablefmt="simple_grid")}")
 
 
-def del_sheet(worksheet_name):
+def del_sheet(worksheet_name: str) -> None:
     """
     Deletes the specified worksheet.
 
@@ -115,4 +115,3 @@ def del_sheet(worksheet_name):
 
     except Exception as e:
         logger.info(f'Worksheet deletion error: {e}')
-

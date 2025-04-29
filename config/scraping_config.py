@@ -8,8 +8,8 @@ def get_full_url(page_amount: int, base_url: str) -> str:
     """
     Constructs the full URL for pagination.
 
-    :param page_amount: amount of page to scrape
-    :param base_url: base url of the page
+    :param page_amount: Amount of page to scrape
+    :param base_url: base URL of the page
     :return: full URl as a string
     """
     return f'{base_url}?src=fh&size={PAGE_SIZE}&offset={page_amount}'

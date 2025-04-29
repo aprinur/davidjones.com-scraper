@@ -1,4 +1,5 @@
 import os
+
 import gspread
 from dotenv import load_dotenv
 from google.oauth2.service_account import Credentials
@@ -16,7 +17,3 @@ if not GOOGLE_SHEET_CREDENTIALS_FILE or not os.path.exists(os.path.abspath(GOOGL
 creds = Credentials.from_service_account_file(GOOGLE_SHEET_CREDENTIALS_FILE, scopes=scope)
 client = gspread.authorize(creds)
 spreadsheets = client.open(G_SPREADSHEET_NAME)
-
-
-
-

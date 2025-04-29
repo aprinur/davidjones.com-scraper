@@ -1,4 +1,3 @@
-import os
 import sys
 
 from src.g_sheets_ops import all_worksheets, worksheet_name_validator
@@ -6,7 +5,7 @@ from src.logger import logger
 from src.util import url_validator
 
 
-def user_input_for_exported_file() -> str:
+def user_input_for_exported_file() -> str | None:
     """
     Function to get user input for exporting worksheet.
 
@@ -36,7 +35,8 @@ def user_input_for_scraping():
         tuple: A tuple containing the base URL, the number of pages to scrape, and the worksheet name.
     """
     while True:
-        base_url = input('Enter base url (e.g https://www.davidjones.com/men/shoes) or type "quit" and press enter to exit: ')
+        base_url = input(
+            'Enter URL (e.g https://www.davidjones.com/men/shoes) or type "quit" and press enter to exit: ')
         if base_url.lower().strip() == 'quit':
             logger.info('Quit')
             sys.exit(0)
@@ -48,7 +48,8 @@ def user_input_for_scraping():
         print('Invalid URL')
 
     while True:
-        url_cout = input('Enter amount of page to scrape or press enter for default amount(1) or type "quit" and press enter to exit: ')
+        url_cout = input(
+            'Enter amount of page to scrape or press enter for default amount (1) or type "quit" and press enter to exit: ')
         if url_cout.lower() == 'quit':
             logger.info('Quit')
             sys.exit(0)
@@ -70,7 +71,8 @@ def user_input_for_scraping():
             continue
         if worksheet_name_validator(sheet_name):
             while True:
-                new_ws = input(f'Worksheet with name {sheet_name} already exist would you like to create a new worksheet (y/n): ').lower()
+                new_ws = input(
+                    f'Worksheet with name {sheet_name} already exist would you like to create a new worksheet (y/n): ').lower()
                 if not new_ws.strip():
                     print('Option cannot be empty')
                     continue
@@ -185,4 +187,3 @@ Choose Number from the option above or type 'quit' and press enter to exit the p
             print('\nChoose avalilable number only!')
             continue
         return int(options)
-

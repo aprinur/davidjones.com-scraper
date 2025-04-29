@@ -1,4 +1,5 @@
 import logging
+from logging import Logger
 
 LOG_FILE = 'app.log'
 
@@ -11,7 +12,7 @@ logging.basicConfig(
 )
 
 
-def log():
+def log() -> Logger:
     return logging.getLogger(__name__)
 
 

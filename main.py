@@ -1,11 +1,11 @@
 import sys
 
+from config.scraping_config import get_full_url, PAGE_SIZE
 from src.g_sheets_ops import to_g_worksheet, worksheet_values, del_sheet
 from src.logger import logger
 from src.user_input import user_input_for_exported_file, user_input_for_sheet_del, user_input_for_scraping, \
     user_input_for_display_sheet, user_input_main_menu
 from src.util import page_process, to_file, sheet_removal_verif
-from config.scraping_config import get_full_url, PAGE_SIZE
 
 
 def scrape() -> None:

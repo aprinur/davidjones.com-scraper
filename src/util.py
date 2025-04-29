@@ -1,12 +1,10 @@
 import json
 import os
 import re
-import sys
 
 import pandas as pd
 from curl_cffi import requests
 from ratelimit import limits, sleep_and_retry
-from tabulate import tabulate
 
 from config.g_spreadsheet_config import spreadsheets
 from config.scraping_config import MAX_CALLS, PERIOD, HEADERS
@@ -32,15 +30,15 @@ def url_validator(url: str) -> bool:
 
 @sleep_and_retry
 @limits(calls=MAX_CALLS, period=PERIOD)
-def get_html_content(URL: str) -> str:
+def get_html_content(url: str) -> str | bool:
     """
-    Fetch html from the website
+    Fetch HTML from the website
 
-    :param URL: str
-    :return: html data structure
+    :param url: url of the site
+    :return: HTML data structure
     """
     try:
-        response = requests.get(URL, impersonate='chrome')
+        response = requests.get(url, impersonate='chrome')
         return response.text
 
     except TimeoutError as e:
@@ -49,7 +47,7 @@ def get_html_content(URL: str) -> str:
         return False
 
 
-def get_string_json(html_content: str) -> str:
+def get_string_json(html_content: str) -> str | bool:
     """
     Get json data from given html
 
@@ -75,12 +73,12 @@ def get_string_json(html_content: str) -> str:
         return False
 
 
-def string_to_json(data_string: dict) -> dict:
+def string_to_json(data_string: str) -> any:
     """
-    Load string data as json
+    Load string data as a JSON so it could be parsed as a dictionary
 
-    :param data_string: string json to convert
-    :return: loaded string as data json
+    :param data_string: string JSON to convert
+    :return: loaded string as data JSON
     """
     try:
         loaded_data = json.loads(data_string)
@@ -90,12 +88,12 @@ def string_to_json(data_string: dict) -> dict:
         logger.error(f'loads string to json error : {e}')
 
 
-def page_process(url: str) -> list[DataRequirements]:
+def page_process(url: str) -> list[DataRequirements] | None:
     """
     Process given URL into list[DataRequirement]
 
     :param url: base url of page to scrape
-    :return: list of DataRequirement object
+    :return: a list of DataRequirement object
     """
     html_content = get_html_content(url)
     if not html_content:
@@ -107,7 +105,7 @@ def page_process(url: str) -> list[DataRequirements]:
 
 
 # File Handling
-def to_file(data: list[DataRequirements] | str, filename: str) -> bool:
+def to_file(data: list[DataRequirements] | str, filename: str) -> bool | None:
     """
     Export given data into .xlsx or .csv
 
@@ -146,7 +144,7 @@ def to_file(data: list[DataRequirements] | str, filename: str) -> bool:
 
 
 # Removal Verifiction
-def sheet_removal_verif() -> bool:
+def sheet_removal_verif() -> bool | None:
     """
     Verification to remove worksheet from spreadsheet
 
@@ -162,5 +160,3 @@ def sheet_removal_verif() -> bool:
         elif verif == 'n':
             return False
         logger.info('Invalid input')
-
-
