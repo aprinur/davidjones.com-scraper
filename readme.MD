@@ -1,4 +1,4 @@
-# davidjones.com Scraper
+# David Jones Scraper
 
 Tired of copy and paste product information from davidjones.com to google spreadsheet or excel manually? Well, I have solution for that
 <br>
